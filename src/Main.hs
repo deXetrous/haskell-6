@@ -1,15 +1,21 @@
 module Main(main) where
 
 import Graphics.Gloss
+import Graphics.Gloss.Data.Color
+
+import Game
+import Rendering
+import Logic
 
 window :: Display
-window = InWindow "Nice Window" (200, 200) (10, 10)
+window = InWindow "Othello/Reversi" (screenWidth, screenHeight) (100, 100)
 
-background :: Color
-background = white
+backgroundColor :: Color
+backgroundColor = makeColor 0 102 15 255
 
 drawing :: Picture
 drawing = circle 80
 
+
 main :: IO ()
-main = display window background drawing
+main = play window backgroundColor 30 initialGame gameAsPicture transformGame (const id)

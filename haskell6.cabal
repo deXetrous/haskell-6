@@ -57,7 +57,9 @@ executable haskell6
   -- other-extensions:    
   
   -- Other library packages from which modules are imported.
-  build-depends:       base >=4.8 && <4.9, gloss==1.12.*
+  build-depends:       base >=4.8 && <4.9
+                       ,gloss==1.12.*
+                       ,array
   
   -- Directories containing source files.
   hs-source-dirs:      src

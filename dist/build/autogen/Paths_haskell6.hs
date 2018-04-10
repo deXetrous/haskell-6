@@ -17,7 +17,7 @@ version = Version [0,1,0,0] []
 bindir, libdir, datadir, libexecdir, sysconfdir :: FilePath
 
 bindir     = "/home/root-om/Documents/Progs/Haskell/Haskell 6/haskell-6/.cabal-sandbox/bin"
-libdir     = "/home/root-om/Documents/Progs/Haskell/Haskell 6/haskell-6/.cabal-sandbox/lib/x86_64-linux-ghc-7.10.3/haskell6-0.1.0.0-B5EczDK7qT96v9GFAtv8Eb"
+libdir     = "/home/root-om/Documents/Progs/Haskell/Haskell 6/haskell-6/.cabal-sandbox/lib/x86_64-linux-ghc-7.10.3/haskell6-0.1.0.0-HuqvgYYIk7M2cRAQvpnzCc"
 datadir    = "/home/root-om/Documents/Progs/Haskell/Haskell 6/haskell-6/.cabal-sandbox/share/x86_64-linux-ghc-7.10.3/haskell6-0.1.0.0"
 libexecdir = "/home/root-om/Documents/Progs/Haskell/Haskell 6/haskell-6/.cabal-sandbox/libexec"
 sysconfdir = "/home/root-om/Documents/Progs/Haskell/Haskell 6/haskell-6/.cabal-sandbox/etc"
