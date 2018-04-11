@@ -31,7 +31,7 @@ cellHeight = fromIntegral screenHeight / fromIntegral n
 initialGame = Game { gameBoard = (array indexRange $ zip (range indexRange) (cycle [Empty])) // [ ((0, 0), Full PlayerB)
                                                                                                , ((1, 1), Full PlayerW)
                                                                                                , ((2, 2), Full PlayerB)]
-                   , gamePlayer =  PlayerB
+                   , gamePlayer =  PlayerW
                    , gameState = Running
                    }
     where indexRange = ((0, 0), (n-1, n-1))
