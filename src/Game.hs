@@ -3,7 +3,7 @@ module Game where
 import Data.Array
 
 data Player = PlayerB | PlayerW deriving (Eq, Show)
-type Cell = Maybe Player
+data Cell = Empty | Full Player deriving (Eq, Show)
 data State = Running | GameOver (Maybe Player) deriving (Eq, Show)
 
 type Board = Array (Int, Int) Cell
@@ -20,7 +20,7 @@ screenWidth :: Int
 screenWidth = 640
 
 screenHeight :: Int
-screenHeight = 480
+screenHeight = 640
 
 cellWidth :: Float
 cellWidth = fromIntegral screenWidth / fromIntegral n
@@ -28,7 +28,9 @@ cellWidth = fromIntegral screenWidth / fromIntegral n
 cellHeight :: Float
 cellHeight = fromIntegral screenHeight / fromIntegral n
 
-initialGame = Game { gameBoard = array indexRange $ zip (range indexRange) (repeat Nothing)
+initialGame = Game { gameBoard = (array indexRange $ zip (range indexRange) (cycle [Empty])) // [ ((0, 0), Full PlayerB)
+                                                                                               , ((1, 1), Full PlayerW)
+                                                                                               , ((2, 2), Full PlayerB)]
                    , gamePlayer =  PlayerB
                    , gameState = Running
                    }
