@@ -7,10 +7,16 @@ import Graphics.Gloss.Interface.Pure.Game
 
 isCoordCorrect = inRange ((0, 0), (n - 1, n - 1))
 
+switchPlayer game = 
+	case gamePlayer game of
+		PlayerB -> game { gamePlayer = PlayerW}
+		PlayerW -> game { gamePlayer = PlayerB}
+
+
 playerTurn :: Game -> (Int, Int) -> Game
 playerTurn game cellCoord
     | isCoordCorrect cellCoord && board ! cellCoord == Empty =
-    	game { gameBoard = board // [(cellCoord, Full $ player)]}
+    	switchPlayer $ game { gameBoard = board // [(cellCoord, Full $ player)]}
     | otherwise = game
     where board = gameBoard game
           player = gamePlayer game
