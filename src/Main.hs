@@ -18,4 +18,4 @@ drawing = circle 80
 
 
 main :: IO ()
-main = play window backgroundColor 30 initialGame gameAsPicture transformGame (const id)
+main = play window backgroundColor 30 initialGame gameAsPicture (transformGame) (const id)

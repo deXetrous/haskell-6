@@ -3,8 +3,9 @@ module Rendering where
 import Data.Array
 
 import Graphics.Gloss
-
 import Game
+
+import Logic
 
 boardGridColor = makeColorI 128 128 128 255
 playerBColor = makeColorI 0 0 0 255
@@ -35,6 +36,9 @@ cellsOfBoard board cell cellPicture =
 	$ map (snapPictureToCell cellPicture . fst)
 	$ filter (\(_, e) -> e == cell)
 	$ assocs board
+
+	
+
 
 bCellsOfBoard :: Board -> Picture
 bCellsOfBoard board = cellsOfBoard board (Full PlayerB) bCell
