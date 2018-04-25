@@ -10,12 +10,17 @@ import Logic
 boardGridColor = makeColorI 128 128 128 255
 playerBColor = makeColorI 0 0 0 255
 playerWColor = makeColorI 255 255 255 255
+tieColor = greyN 0.5
 
 boardAsRunningPicture board = 
 	pictures [ color playerBColor $ bCellsOfBoard board
 	         , color playerWColor $ wCellsOfBoard board
 	         , color boardGridColor $ boardGrid
 	         ]
+
+outcomeColor (Just PlayerB) = playerBColor
+outcomeColor (Just PlayerW) = playerWColor
+outcomeColor Nothing = tieColor
 
 snapPictureToCell picture (row, column) = translate x y picture
     where x = fromIntegral column * cellWidth + cellWidth * 0.5
@@ -64,6 +69,7 @@ boardAsPicture board =
 	         , boardGrid
 	         ]
 
+boardAsGameOverPicture winner board = color (outcomeColor winner) (boardAsPicture board)
 
 gameAsPicture :: Game -> Picture
 gameAsPicture game = translate (fromIntegral screenWidth * (-0.5))
@@ -71,3 +77,4 @@ gameAsPicture game = translate (fromIntegral screenWidth * (-0.5))
                                 frame
      where frame = case gameState game of
      	            Running -> boardAsRunningPicture (gameBoard game)
+     	            GameOver winner -> boardAsGameOverPicture winner (gameBoard game)

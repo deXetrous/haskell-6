@@ -302,10 +302,43 @@ switchPlayer game =
 		PlayerW -> game { gamePlayer = PlayerB}
 
 
+calculate :: Game-> Cell -> [(Int,Int)] -> Int
+calculate game tempCell [] = 0
+calculate game tempCell ((x,y):xs) | board!(x,y) == tempCell = 1 + calculate game tempCell xs
+                                   | otherwise = calculate game tempCell xs
+                                   where board = gameBoard game
+
+  
+
+
+checkGameOver game
+    | calculate game Empty (range indexRange) == 0 && calculate game (Full PlayerB) (range indexRange) > calculate game (Full PlayerW) (range indexRange) = game { gameState = GameOver (Just PlayerB)}
+    | calculate game Empty (range indexRange) == 0 && calculate game (Full PlayerW) (range indexRange) > calculate game (Full PlayerB) (range indexRange) = game { gameState = GameOver (Just PlayerW)}
+    | calculate game Empty (range indexRange) == 0 && calculate game (Full PlayerW) (range indexRange) == calculate game (Full PlayerB) (range indexRange) = game { gameState = GameOver Nothing}
+    | otherwise = game
+    where indexRange = ((0,0),(n-1,n-1))
+
+
+checkValidMoves :: Game -> [(Int,Int)] -> Bool
+checkValidMoves game [] = False
+checkValidMoves game ((x,y):xs) 
+                | (isCoordCorrect (x,y)) && (isCoordAdjacent game (x,y)) && (isDown game (x,y) || isUp game (x,y) || isLeft game (x,y) || isRight game (x,y)|| isNW game (x,y)|| isSE game (x,y)|| isSW game (x,y) || isNE game (x,y)) && board ! (x,y) == Empty = True
+                | otherwise = checkValidMoves game xs
+                 where board = gameBoard game
+
+isValidMovesLeft :: Game -> Bool
+isValidMovesLeft game
+    | checkValidMoves game (range indexRange) = True
+    | otherwise = False
+    where indexRange = ((0,0),(n-1,n-1))
+
+
 playerTurn :: Game -> (Int, Int) -> Game
 playerTurn game cellCoord
+    | isValidMovesLeft game == False = switchPlayer game
     | (isCoordCorrect cellCoord) && (isCoordAdjacent game cellCoord) && (isDown game cellCoord || isUp game cellCoord || isLeft game cellCoord || isRight game cellCoord|| isNW game cellCoord|| isSE game cellCoord|| isSW game cellCoord || isNE game cellCoord) && board ! cellCoord == Empty =
-    	switchPlayer 
+       checkGameOver
+      $ switchPlayer 
     	$ game { gameBoard = board // (checkflipUp game cellCoord ++ checkflipDown game cellCoord ++ checkflipLeft game cellCoord ++ checkflipRight game cellCoord
                                      ++checkflipNW game cellCoord ++ checkflipNE game cellCoord ++ checkflipSW game cellCoord ++ checkflipSE game cellCoord)}
     | otherwise = game
@@ -321,7 +354,7 @@ mousePosAsCellCoord (x, y) = ( floor ((y + (fromIntegral screenHeight * 0.5)) / 
 	
 
 transformGame (EventKey (MouseButton LeftButton) Up _ mousePos) game = 
-	case gameState game of
-		Running -> playerTurn game $ mousePosAsCellCoord mousePos
+	   case gameState game of
+		    Running -> playerTurn game $ mousePosAsCellCoord mousePos
 
-transformGame _  game = game
+transformGame _ game = game
