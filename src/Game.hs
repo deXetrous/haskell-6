@@ -32,7 +32,7 @@ initialGame = Game { gameBoard = (array indexRange $ zip (range indexRange) (cyc
                                                                                                , ((3, 4), Full PlayerW)
                                                                                                , ((4, 4), Full PlayerB)
                                                                                                , ((4, 3), Full PlayerW)]
-                   , gamePlayer =  PlayerW
+                   , gamePlayer =  PlayerB
                    , gameState = Running
                    }
     where indexRange = ((0, 0), (n-1, n-1))

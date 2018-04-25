@@ -25,7 +25,8 @@ isCoordAdjacent game (x, y) |    x+1 < n && board!(x+1, y) == (Full $ player)
                                   	else PlayerB
 
 isendSymbolDown :: Game -> (Int,Int) ->Bool
-isendSymbolDown game (x,y) | x >=0 && (board!(x, y) == (Full $ player) || isendSymbolDown game (x-1, y)) = True
+isendSymbolDown game (x,y) | x>=0 && (board!(x, y) == Empty) = False
+                      | x >=0 && (board!(x, y) == (Full $ player) || isendSymbolDown game (x-1, y)) = True
                       | otherwise = False
                       where board = gameBoard game
                             player = gamePlayer game
@@ -41,7 +42,8 @@ isDown game (x,y) | x-1 >=0 && board!(x-1, y) == (Full $ player) && isendSymbolD
 
 
 isendSymbolUp :: Game -> (Int,Int) ->Bool
-isendSymbolUp game (x,y) | x <n && (board!(x, y) == (Full $ player) || isendSymbolUp game (x+1, y)) = True
+isendSymbolUp game (x,y) | x<n && (board!(x, y) == Empty) = False
+                      | x <n && (board!(x, y) == (Full $ player) || isendSymbolUp game (x+1, y)) = True
                       | otherwise = False
                       where board = gameBoard game
                             player = gamePlayer game
@@ -56,7 +58,8 @@ isUp game (x,y) | x+1 <n && board!(x+1, y) == (Full $ player) && isendSymbolUp g
                           else PlayerB
 
 isendSymbolLeft :: Game -> (Int,Int) ->Bool
-isendSymbolLeft game (x,y) | y >= 0 && (board!(x, y) == (Full $ player) || isendSymbolLeft game (x, y-1)) = True
+isendSymbolLeft game (x,y) | y >= 0 && (board!(x, y) == Empty) = False
+                      | y >= 0 && (board!(x, y) == (Full $ player) || isendSymbolLeft game (x, y-1)) = True
                       | otherwise = False
                       where board = gameBoard game
                             player = gamePlayer game
@@ -71,7 +74,8 @@ isLeft game (x,y) | y-1 >=0 && board!(x, y-1) == (Full $ player) && isendSymbolL
                           else PlayerB
 
 isendSymbolRight :: Game -> (Int,Int) ->Bool
-isendSymbolRight game (x,y) | y <n && (board!(x, y) == (Full $ player) || isendSymbolRight game (x, y+1)) = True
+isendSymbolRight game (x,y) | y<n && (board!(x, y) == Empty) = False
+                      | y <n && (board!(x, y) == (Full $ player) || isendSymbolRight game (x, y+1)) = True
                       | otherwise = False
                       where board = gameBoard game
                             player = gamePlayer game
@@ -86,7 +90,8 @@ isRight game (x,y) | y+1 <n && board!(x, y+1) == (Full $ player) && isendSymbolR
                           else PlayerB
 
 isendSymbolNW :: Game -> (Int,Int) ->Bool
-isendSymbolNW game (x,y) | x <n && y>0 && (board!(x, y) == (Full $ player) || isendSymbolNW game (x+1, y-1)) = True
+isendSymbolNW game (x,y) | x<n && y>=0 && (board!(x, y) == Empty) = False
+                      | x <n && y>=0 && (board!(x, y) == (Full $ player) || isendSymbolNW game (x+1, y-1)) = True
                       | otherwise = False
                       where board = gameBoard game
                             player = gamePlayer game
@@ -102,7 +107,8 @@ isNW game (x,y) | x+1 <n && y-1 >0 && board!(x+1, y-1) == (Full $ player) && ise
 
 
 isendSymbolNE :: Game -> (Int,Int) ->Bool
-isendSymbolNE game (x,y) | x <n && y<n && (board!(x, y) == (Full $ player) || isendSymbolNE game (x+1, y+1)) = True
+isendSymbolNE game (x,y) | x <n && y<n && (board!(x, y) == Empty) = False
+                      | x <n && y<n && (board!(x, y) == (Full $ player) || isendSymbolNE game (x+1, y+1)) = True
                       | otherwise = False
                       where board = gameBoard game
                             player = gamePlayer game
@@ -118,7 +124,8 @@ isNE game (x,y) | x+1 <n && y+1 <n && board!(x+1, y+1) == (Full $ player) && ise
 
 
 isendSymbolSE :: Game -> (Int,Int) ->Bool
-isendSymbolSE game (x,y) | x >=0 && y<n && (board!(x, y) == (Full $ player) || isendSymbolSE game (x-1, y+1)) = True
+isendSymbolSE game (x,y) | x >=0 && y<n && (board!(x, y) == Empty) = False
+                      | x >=0 && y<n && (board!(x, y) == (Full $ player) || isendSymbolSE game (x-1, y+1)) = True
                       | otherwise = False
                       where board = gameBoard game
                             player = gamePlayer game
@@ -134,7 +141,8 @@ isSE game (x,y) | x-1 >=0 && y+1 <n && board!(x-1, y+1) == (Full $ player) && is
 
 
 isendSymbolSW :: Game -> (Int,Int) ->Bool
-isendSymbolSW game (x,y) | x >=0 && y>=0 && (board!(x, y) == (Full $ player) || isendSymbolSW game (x-1, y-1)) = True
+isendSymbolSW game (x,y) | x >=0 && y>=0 && (board!(x, y) == Empty) = False
+                      | x >=0 && y>=0 && (board!(x, y) == (Full $ player) || isendSymbolSW game (x-1, y-1)) = True
                       | otherwise = False
                       where board = gameBoard game
                             player = gamePlayer game
