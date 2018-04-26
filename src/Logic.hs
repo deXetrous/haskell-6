@@ -301,6 +301,10 @@ switchPlayer game =
 		PlayerB -> game { gamePlayer = PlayerW}
 		PlayerW -> game { gamePlayer = PlayerB}
 
+switchPlayer1 game game1 = 
+  case gamePlayer game of
+    PlayerB -> game { gamePlayer = PlayerW}
+    PlayerW -> game { gamePlayer = PlayerB}
 
 calculate :: Game-> Cell -> [(Int,Int)] -> Int
 calculate game tempCell [] = 0
@@ -333,11 +337,53 @@ isValidMovesLeft game
     where indexRange = ((0,0),(n-1,n-1))
 
 
+checkValidPositon :: Game -> (Int,Int) -> Bool
+checkValidPositon game (x,y)
+                | (isCoordCorrect (x,y)) && (isCoordAdjacent game (x,y)) && (isDown game (x,y) || isUp game (x,y) || isLeft game (x,y) || isRight game (x,y)|| isNW game (x,y)|| isSE game (x,y)|| isSW game (x,y) || isNE game (x,y)) && board ! (x,y) == Empty = True
+                | otherwise = False
+                where board = gameBoard game
+
+--setPoints :: Game -> cellCoord -> Int
+setPoints game cellCoord | (isCoordAdjacent game cellCoord) && (isDown game cellCoord || isUp game cellCoord || isLeft game cellCoord || isRight game cellCoord|| isNW game cellCoord|| isSE game cellCoord|| isSW game cellCoord || isNE game cellCoord) && board ! cellCoord == Empty =
+                       length(checkflipUp game cellCoord ++ checkflipDown game cellCoord ++ checkflipLeft game cellCoord ++ checkflipRight game cellCoord
+                                     ++checkflipNW game cellCoord ++ checkflipNE game cellCoord ++ checkflipSW game cellCoord ++ checkflipSE game cellCoord)
+                     | otherwise = 0
+                     where board = gameBoard game
+
+--findIndex :: Int-> [Int]->Int->(Int,Int)
+findIndex i [] ele = (-1,-1)
+findIndex i (x:xs) ele | x == ele = (i `div` 8, i `mod` 8)
+                       | otherwise = findIndex (i+1) xs ele
+
+--findMaximum ::[Int] -> (x,y)
+findMaximum mylist = findIndex 0 mylist $ maximum mylist 
+
+--getPos :: Game -> (Int,Int)
+getPos game | snd (findMaximum (map (setPoints game) $ (range indexRange))) /= -1 = findMaximum (map (setPoints game) $ (range indexRange))
+            | otherwise = (0,0)
+            where indexRange = ((0,0),(n-1,n-1))
+
+
+--botMove :: Game -> (Int,Int)
+botMove game | checkValidPositon game (0,0)==True = (0,0)
+             | checkValidPositon game (0,7)==True = (0,7)
+             | checkValidPositon game (7,0)==True = (7,0) 
+             | checkValidPositon game (7,7)==True = (7,7)
+             | getPos game /= (-1,-1) = (getPos game)
+             
+
+botMotion:: Game -> Game
+botMotion game = game {gameBoard = board // (checkflipUp game (botMove game) ++ checkflipDown game (botMove game) ++ checkflipLeft game (botMove game) ++ checkflipRight game (botMove game)
+                                     ++checkflipNW game (botMove game) ++ checkflipNE game (botMove game) ++ checkflipSW game (botMove game) ++ checkflipSE game (botMove game))}
+                where board = gameBoard game
+
 playerTurn :: Game -> (Int, Int) -> Game
 playerTurn game cellCoord
     | isValidMovesLeft game == False = switchPlayer game
     | (isCoordCorrect cellCoord) && (isCoordAdjacent game cellCoord) && (isDown game cellCoord || isUp game cellCoord || isLeft game cellCoord || isRight game cellCoord|| isNW game cellCoord|| isSE game cellCoord|| isSW game cellCoord || isNE game cellCoord) && board ! cellCoord == Empty =
        checkGameOver
+      $ switchPlayer
+      $ botMotion   
       $ switchPlayer 
     	$ game { gameBoard = board // (checkflipUp game cellCoord ++ checkflipDown game cellCoord ++ checkflipLeft game cellCoord ++ checkflipRight game cellCoord
                                      ++checkflipNW game cellCoord ++ checkflipNE game cellCoord ++ checkflipSW game cellCoord ++ checkflipSE game cellCoord)}
