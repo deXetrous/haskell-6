@@ -1,0 +1,11 @@
+Setup.hs.save0
+Setup.hs
+readme.txt
+LICENSE
+haskell6.cabal.save0
+haskell6.cabal
+ChangeLog.md
+cabal.sandbox.config
+dist
+.DS_Store
+.cabal-sandbox

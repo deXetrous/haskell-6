@@ -18,13 +18,13 @@ n :: Int           -- no of blocks(rows or columns)
 n = 9
 
 screenWidth :: Int
-screenWidth = 810
+screenWidth = 720
 
 screenWidth1 :: Int
 screenWidth1 =  720
 
 screenHeight :: Int
-screenHeight = 810
+screenHeight = 720
 
 screenHeight1 :: Int
 screenHeight1 = 720
@@ -40,22 +40,22 @@ initialGame = Game { gameBoard = (array indexRange $ zip (range indexRange) (cyc
                                                                                                , ((3, 4), Full PlayerW)
                                                                                                , ((4, 4), Full PlayerB)
                                                                                                , ((4, 3), Full PlayerW)
-                                                                                               , ((8,1), Text1)
-                                                                                               , ((8,2), Text2)
-                                                                                               , ((8,3), Text3)
-                                                                                               , ((8,4), Text4)
-                                                                                               , ((8,5), Text5)
-                                                                                               , ((8,6), Text6)
-                                                                                               , ((8,7), Text7)
-                                                                                               , ((8,8), Text8)
-                                                                                               , ((0,0), Text8)
-                                                                                               , ((1,0), Text7)
-                                                                                               , ((2,0), Text6)
-                                                                                               , ((3,0), Text5)
-                                                                                               , ((4,0), Text4)
-                                                                                               , ((5,0), Text3)
-                                                                                               , ((6,0), Text2)
-                                                                                               , ((7,0), Text1)]
+                                                                                               , ((8,0), Text1)
+                                                                                               , ((8,1), Text2)
+                                                                                               , ((8,2), Text3)
+                                                                                               , ((8,3), Text4)
+                                                                                               , ((8,4), Text5)
+                                                                                               , ((8,5), Text6)
+                                                                                               , ((8,6), Text7)
+                                                                                               , ((8,7), Text8)
+                                                                                               , ((7,8), Text8)
+                                                                                               , ((6,8), Text7)
+                                                                                               , ((5,8), Text6)
+                                                                                               , ((4,8), Text5)
+                                                                                               , ((3,8), Text4)
+                                                                                               , ((2,8), Text3)
+                                                                                               , ((1,8), Text2)
+                                                                                               , ((0,8), Text1)]
                    , gamePlayer =  PlayerB
                    , gameState = Running
                    }
