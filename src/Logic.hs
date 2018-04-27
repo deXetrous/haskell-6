@@ -157,139 +157,164 @@ isSW game (x,y) | x-1 >=0 && y-1 >=0 && board!(x-1, y-1) == (Full $ player) && i
                           else PlayerB
 
 
+genUp :: ((Int,Int),(Int,Int)) -> [(Int,Int)]
 genUp ((x,y),(z,w)) | x<=z = (x,y):genUp ((x+1,y),(z,w))
                     | otherwise = []
 
 
+upIndex :: Game -> (Int,Int) -> (Int,Int)
 upIndex game (x,y) | board!(x,y) == (Full $ player) = (x, y)
                    | otherwise = upIndex game (x+1, y) 
                    where player = gamePlayer game
                          board = gameBoard game
 
+
+flipUp :: Game -> (Int,Int) -> [((Int,Int),Cell)]
 flipUp game (x,y) = zip (genUp indexRange) (repeat (Full $ player))
   where player = gamePlayer game
         indexRange = ((x,y),(upIndex game (x+1,y)))
 
+checkflipUp :: Game -> (Int,Int) -> [((Int,Int),Cell)]
 checkflipUp game cellCoord  | isUp game cellCoord = flipUp game cellCoord
                             | otherwise = []
 
 
+genDown :: ((Int,Int),(Int,Int)) -> [(Int,Int)]
 genDown ((x,y),(z,w)) | x<=z = (x,y):genDown ((x+1,y),(z,w))
                       | otherwise = []
 
-
+downIndex :: Game -> (Int,Int) -> (Int,Int)
 downIndex game (x,y) | board!(x,y) == (Full $ player) = (x,y)
                      | otherwise = downIndex game (x-1,y)
                      where player = gamePlayer game
                            board = gameBoard game
 
+
+flipDown :: Game -> (Int,Int) -> [((Int,Int),Cell)]
 flipDown game (x,y) = zip (genDown indexRange) (repeat (Full $ player))
   where player = gamePlayer game
         indexRange = ((downIndex game (x-1,y)),(x,y))
 
-
+checkflipDown :: Game -> (Int,Int) -> [((Int,Int),Cell)]
 checkflipDown game cellCoord  | isDown game cellCoord = flipDown game cellCoord
                               | otherwise = []
 
 
 
-
+genLeft :: ((Int,Int),(Int,Int)) -> [(Int,Int)]
 genLeft ((x,y),(z,w)) | y<=w = (x,y):genLeft ((x,y+1),(z,w))
                       | otherwise = []
 
+leftIndex :: Game -> (Int,Int) -> (Int,Int)
 leftIndex game (x,y) | board!(x,y) == (Full $ player) = (x, y)
                      | otherwise = leftIndex game (x, y-1) 
                    where player = gamePlayer game
                          board = gameBoard game
 
+flipLeft :: Game -> (Int,Int) -> [((Int,Int),Cell)]
 flipLeft game (x,y) = zip (genLeft indexRange) (repeat (Full $ player))
   where player = gamePlayer game
         indexRange = ((leftIndex game (x,y-1)), (x,y))
 
+checkflipLeft :: Game -> (Int,Int) -> [((Int,Int),Cell)]
 checkflipLeft game cellCoord  | isLeft game cellCoord = flipLeft game cellCoord
                               | otherwise = []
 
 
-
+genRight :: ((Int,Int),(Int,Int)) -> [(Int,Int)]
 genRight ((x,y),(z,w)) | y<=w = (x,y):genRight ((x,y+1),(z,w))
                        | otherwise = []
 
-
+rightIndex :: Game -> (Int,Int) -> (Int,Int)
 rightIndex game (x,y) | board!(x,y) == (Full $ player) = (x, y)
                       | otherwise = rightIndex game (x, y+1) 
                    where player = gamePlayer game
                          board = gameBoard game
 
+flipRight :: Game -> (Int,Int) -> [((Int,Int),Cell)]
 flipRight game (x,y) = zip (genRight indexRange) (repeat (Full $ player))
   where player = gamePlayer game
         indexRange = ((x,y),(rightIndex game (x,y+1)))
 
+checkflipRight :: Game -> (Int,Int) -> [((Int,Int),Cell)]
 checkflipRight game cellCoord  | isRight game cellCoord = flipRight game cellCoord
                                | otherwise = []
 
-
+genNW :: ((Int,Int),(Int,Int)) -> [(Int,Int)]
 genNW ((x,y),(z,w)) | x<=z && y>=w = (x,y):genNW ((x+1,y-1),(z,w))
                     | otherwise = []
 
-
+nwIndex :: Game -> (Int,Int) -> (Int,Int)
 nwIndex game (x,y) | board!(x,y) == (Full $ player) = (x, y)
                    | otherwise = nwIndex game (x+1, y-1) 
                    where player = gamePlayer game
                          board = gameBoard game
 
+
+flipNW :: Game -> (Int,Int) -> [((Int,Int),Cell)]
 flipNW game (x,y) = zip (genNW indexRange) (repeat (Full $ player))
   where player = gamePlayer game
         indexRange = ((x,y),(nwIndex game (x+1,y-1)))
 
+checkflipNW :: Game -> (Int,Int) -> [((Int,Int),Cell)]
 checkflipNW game cellCoord  | isNW game cellCoord = flipNW game cellCoord
                             | otherwise = []
 
 
-
+genNE :: ((Int,Int),(Int,Int)) -> [(Int,Int)]
 genNE ((x,y),(z,w)) | x<=z && y<=w = (x,y):genNE ((x+1,y+1),(z,w))
                     | otherwise = []
 
+neIndex :: Game -> (Int,Int) -> (Int,Int)
 neIndex game (x,y) | board!(x,y) == (Full $ player) = (x, y)
                    | otherwise = neIndex game (x+1, y+1) 
                    where player = gamePlayer game
                          board = gameBoard game
 
+flipNE :: Game -> (Int,Int) -> [((Int,Int),Cell)]
 flipNE game (x,y) = zip (genNE indexRange) (repeat (Full $ player))
   where player = gamePlayer game
         indexRange = ((x,y),(neIndex game (x+1,y+1)))
 
+checkflipNE :: Game -> (Int,Int) -> [((Int,Int),Cell)]
 checkflipNE game cellCoord  | isNE game cellCoord = flipNE game cellCoord
                             | otherwise = []
 
-
+genSW :: ((Int,Int),(Int,Int)) -> [(Int,Int)]
 genSW ((x,y),(z,w)) | x<=z && y<=w = (x,y):genSW ((x+1,y+1),(z,w))
                     | otherwise = []
 
+swIndex :: Game -> (Int,Int) -> (Int,Int)
 swIndex game (x,y) | board!(x,y) == (Full $ player) = (x, y)
                    | otherwise = swIndex game (x-1, y-1) 
                    where player = gamePlayer game
                          board = gameBoard game
 
+flipSW :: Game -> (Int,Int) -> [((Int,Int),Cell)]
 flipSW game (x,y) = zip (genSW indexRange) (repeat (Full $ player))
   where player = gamePlayer game
         indexRange = ((swIndex game (x-1,y-1)), (x,y))
 
+checkflipSW :: Game -> (Int,Int) -> [((Int,Int),Cell)]
 checkflipSW game cellCoord  | isSW game cellCoord = flipSW game cellCoord
                             | otherwise = []
 
-
+genSE :: ((Int,Int),(Int,Int)) -> [(Int,Int)]
 genSE ((x,y),(z,w)) | x<=z && y>=w = (x,y):genSE ((x+1,y-1),(z,w))
                     | otherwise = []
 
+seIndex :: Game -> (Int,Int) -> (Int,Int)
 seIndex game (x,y) | board!(x,y) == (Full $ player) = (x, y)
                    | otherwise = seIndex game (x-1, y+1) 
                    where player = gamePlayer game
                          board = gameBoard game
 
+flipSE :: Game -> (Int,Int) -> [((Int,Int),Cell)]
 flipSE game (x,y) = zip (genSE indexRange) (repeat (Full $ player))
   where player = gamePlayer game
         indexRange = ((seIndex game (x-1,y+1)), (x,y))
 
+checkflipSE :: Game -> (Int,Int) -> [((Int,Int),Cell)]
 checkflipSE game cellCoord  | isSE game cellCoord = flipSE game cellCoord
                             | otherwise = []
 
