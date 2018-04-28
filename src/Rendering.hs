@@ -14,6 +14,7 @@ stringColor = makeColorI 0 0 0 255
 playerWboardColor = greyN 0.5
 tieColor = greyN 0.2
 
+-- | This 'boardAsRunningPicture' function returns picture after applying colour to them
 boardAsRunningPicture game board =
 	pictures [ color playerBColor $ bCellsOfBoard board
 	         , color playerWColor $ wCellsOfBoard board
@@ -35,48 +36,60 @@ outcomeColor (Just PlayerB) = playerBColor
 outcomeColor (Just PlayerW) = playerWColor
 outcomeColor Nothing = tieColor
 
+
+-- | This 'snapPictureToCell' renders the image to centre of cell
 snapPictureToCell picture (row, column) = translate x y picture
     where x = fromIntegral column * cellWidth + cellWidth * 0.5
           y = fromIntegral row * cellHeight + cellHeight * 0.5
 
 
+-- | This 'bcell' function returns picture of black solid circle
 bCell :: Picture
 bCell = circleSolid radius
 	where radius = cellWidth * 0.25
 
+-- | This 'wcell' function returns picture of white solid circle
 wCell :: Picture
 wCell = circleSolid radius
 	where radius = cellWidth * 0.25
 
 
+-- | This 'scell1' function returns picture of text 1
 sCell1 ::  Picture
 sCell1 = text str
 	where str = "1"
 
+-- | This 'scell2' function returns picture of text 2
 sCell2 ::  Picture
 sCell2 = text str
 	where str = "2"
 
+-- | This 'scell3' function returns picture of text 3
 sCell3 ::  Picture
 sCell3 = text str
 	where str = "3"
 
+-- | This 'scell4' function returns picture of text 4
 sCell4 ::  Picture
 sCell4 = text str
 	where str = "4"
 
+-- | This 'scell5' function returns picture of text 5
 sCell5 ::  Picture
 sCell5 = text str
 	where str = "5"
 
+-- | This 'scell6' function returns picture of text 6
 sCell6 ::  Picture
 sCell6 = text str
 	where str = "6"
 
+-- | This 'scell7' function returns picture of text 7
 sCell7 ::  Picture
 sCell7 = text str
 	where str = "7"
 
+-- | This 'scell8' function returns picture of text 8
 sCell8 ::  Picture
 sCell8 = text str
 	where str = "8"
@@ -90,7 +103,7 @@ cellsOfBoard board cell cellPicture =
 
 
 
-
+-- | This 'bCellsOfBoard' function takes board and returns picture
 bCellsOfBoard :: Board -> Picture
 bCellsOfBoard board = cellsOfBoard board (Full PlayerB) bCell
 
