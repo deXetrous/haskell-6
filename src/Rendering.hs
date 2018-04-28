@@ -11,12 +11,13 @@ boardGridColor = makeColorI 128 128 128 255
 playerBColor = makeColorI 0 0 0 255
 playerWColor = makeColorI 255 255 255 255
 stringColor = makeColorI 0 0 0 255
-tieColor = greyN 0.5
+playerWboardColor = greyN 0.5
+tieColor = greyN 0.2
 
-boardAsRunningPicture board =
+boardAsRunningPicture game board =
 	pictures [ color playerBColor $ bCellsOfBoard board
 	         , color playerWColor $ wCellsOfBoard board
-	         , color boardGridColor $ boardGrid
+	         , color boardColor $ boardGrid
 					 , color stringColor $ s1CellsOfBoard board
 					 , color stringColor $ s2CellsOfBoard board
 					 , color stringColor $ s3CellsOfBoard board
@@ -26,6 +27,9 @@ boardAsRunningPicture board =
 					 , color stringColor $ s7CellsOfBoard board
 					 , color stringColor $ s8CellsOfBoard board
 	         ]
+	         where boardColor | gamePlayer game == PlayerB = playerBColor
+	                          | gamePlayer game == PlayerW = playerWboardColor
+	                          | otherwise = boardGridColor
 
 outcomeColor (Just PlayerB) = playerBColor
 outcomeColor (Just PlayerW) = playerWColor
@@ -151,5 +155,5 @@ gameAsPicture game = translate (fromIntegral screenWidth * (-0.5))
                                (fromIntegral screenHeight * (-0.5))
                                 frame
      where frame = case gameState game of
-     	            Running -> boardAsRunningPicture (gameBoard game)
+     	            Running -> boardAsRunningPicture game (gameBoard game)
      	            GameOver winner -> boardAsGameOverPicture winner (gameBoard game)
