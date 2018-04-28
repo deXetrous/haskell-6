@@ -403,18 +403,22 @@ botMotion game = game {gameBoard = board // (checkflipUp game (botMove game) ++ 
                 where board = gameBoard game
 
 
-
 playerTurn :: Game -> (Int, Int) -> Game
 playerTurn game cellCoord
     | isValidMovesLeft game == False = switchPlayer game
-    | (isCoordCorrect cellCoord) && (isCoordAdjacent game cellCoord) && (isDown game cellCoord || isUp game cellCoord || isLeft game cellCoord || isRight game cellCoord|| isNW game cellCoord|| isSE game cellCoord|| isSW game cellCoord || isNE game cellCoord) && board ! cellCoord == Empty =
+    | (isCoordCorrect cellCoord) && (isCoordAdjacent game cellCoord) && player==PlayerB && (isDown game cellCoord || isUp game cellCoord || isLeft game cellCoord || isRight game cellCoord|| isNW game cellCoord|| isSE game cellCoord|| isSW game cellCoord || isNE game cellCoord) && board ! cellCoord == Empty =
        checkGameOver
-      $ switchPlayer
-      $ botMotion
+     
       $ switchPlayer 
     	$ game { gameBoard = board // (checkflipUp game cellCoord ++ checkflipDown game cellCoord ++ checkflipLeft game cellCoord ++ checkflipRight game cellCoord
-                                     ++checkflipNW game cellCoord ++ checkflipNE game cellCoord ++ checkflipSW game cellCoord ++ checkflipSE game cellCoord)}
+                                    ++checkflipNW game cellCoord ++ checkflipNE game cellCoord ++ checkflipSW game cellCoord ++ checkflipSE game cellCoord)}
+    
+    | player==PlayerW =
+       checkGameOver
+      $ switchPlayer
+      $ botMotion game
     | otherwise = game
+
     where board = gameBoard game
           player = gamePlayer game
 
