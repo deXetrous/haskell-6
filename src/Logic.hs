@@ -415,7 +415,8 @@ botMove game | checkValidPositon game (0,0)==True = (0,0)
              | checkValidPositon game (0,7)==True = (0,7)
              | checkValidPositon game (7,0)==True = (7,0) 
              | checkValidPositon game (7,7)==True = (7,7)
-             | getPos game /= (-1,-1) = (getPos game)
+             | botCoordinates /= (0,0) = botCoordinates
+             where botCoordinates = getPos game
              
 -- | This 'botMotion' function takes a game applies the bot motion to it and returns the next state of game.
 botMotion:: Game -> Game
